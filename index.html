@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Terra Incognita</title>
+  <meta name="description" content="Watch the map fill in with every place you've ridden, run or walked.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="stage">
+    <div id="map"></div>
+    <canvas id="fog"></canvas>
+  </div>
+
+  <header id="ledger">
+    <h1>Terra Incognita</h1>
+    <div id="date" class="date">—</div>
+    <dl class="stats">
+      <div><dt>Explored <button id="explored-info" class="info" aria-expanded="false" aria-controls="explored-note" title="How is this measured?">?</button></dt><dd id="s-area">0 km²</dd></div>
+      <div><dt>Climbed</dt><dd id="s-climb">0 m</dd></div>
+      <div><dt>Outings</dt><dd id="s-count">0</dd></div>
+      <div><dt>Distance</dt><dd id="s-dist">0 km</dd></div>
+    </dl>
+    <p id="explored-note" class="note" hidden>An estimate. The map is divided into hexagons of about 0.1&nbsp;km², and every hexagon a route passes through counts in full, so it reads a little generous.</p>
+    <div id="latest" class="latest">
+      <div class="latest-head"><span class="latest-label">Latest</span><span id="latest-name" class="latest-name">—</span></div>
+      <div class="latest-row" title="How much of this outing covered ground you hadn't been to before">
+        <div class="newground"><div id="newground-bar"></div></div>
+        <span id="latest-meta" class="latest-meta">&nbsp;</span>
+      </div>
+    </div>
+  </header>
+
+  <aside id="controls">
+    <div id="account"></div>
+    <details id="settings">
+      <summary>Map settings</summary>
+      <label class="row"><input type="checkbox" id="opt-glow" checked> Glow recent outings</label>
+      <label class="row">Base map
+        <select id="opt-base"></select>
+      </label>
+      <div class="types-label">Activity types</div>
+      <div id="types" class="types"></div>
+    </details>
+  </aside>
+
+  <footer id="timeline">
+    <button id="play" class="play" aria-label="Play">▶</button>
+    <input id="scrub" type="range" min="0" max="1000" value="1000" aria-label="Timeline">
+    <div class="speed" role="group" aria-label="Playback speed">
+      <button data-speed="0.5">0.5×</button>
+      <button data-speed="1" class="on">1×</button>
+      <button data-speed="3">3×</button>
+    </div>
+  </footer>
+
+  <div id="welcome" class="modal">
+    <div class="card">
+      <h2>Terra Incognita</h2>
+      <p>Every map starts as unknown land. Each ride, run or walk you've recorded charts a path through it. Press play to watch years of outings fill in your world.</p>
+      <div class="actions">
+        <a class="strava-connect" href="/api/auth/start"><img src="assets/btn_strava_connect_with_orange.svg" alt="Connect with Strava" width="237" height="48"></a>
+        <button id="demo-btn" class="ghost">Try it with sample outings</button>
+      </div>
+      <p class="fine">Your activities are fetched from Strava and kept in this browser only. Nobody else can see your map.</p>
+    </div>
+  </div>
+
+  <div id="toast" role="status" hidden></div>
+  <img class="powered" src="assets/api_logo_pwrdBy_strava_horiz_white.svg" alt="Powered by Strava" width="146" height="15">
+
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <script src="https://unpkg.com/h3-js@4.1.0/dist/h3-js.umd.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
